@@ -2,30 +2,19 @@ name: Deploy to Vercel
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+    
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          
-      - name: Install Dependencies
-        run: |
-          cd frontend
-          npm install
-          
-      - name: Build Frontend
-        run: |
-          cd frontend
-          npm run build
-          
-      - name: Deploy to Vercel
-        run: |
-          npm install -g vercel@latest
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes 
+    - name: Deploy to Vercel
+      run: |
+        echo "sqlite:////tmp/ecommerce.db" | vercel env add DATABASE_URL production --token=${{ secrets.VERCEL_TOKEN }} || true
+        vercel --token=${{ secrets.VERCEL_TOKEN }} --prod 
