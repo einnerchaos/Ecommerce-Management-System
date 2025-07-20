@@ -703,6 +703,10 @@ def initialize_database():
 
     print('==> [Diagnostics] Backend startup complete. Ready to serve requests.')
 
-if __name__ == '__main__':
+@app.before_first_request
+def initialization():
     initialize_database()
-    app.run(debug=True, host='0.0.0.0', port=5000) 
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+if __name__ == '__main__':
+    initialization()
