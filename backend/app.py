@@ -529,8 +529,7 @@ def report_orders():
     return send_file(output, as_attachment=True, download_name='orders_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 
-
-if __name__ == '__main__':
+def initialize_database():
     with app.app_context():
         print('==> [Diagnostics] Creating all tables if not exist...')
         db.create_all()
@@ -703,4 +702,7 @@ if __name__ == '__main__':
             print('==> [Diagnostics] Sample data NOT inserted (DB not empty).')
 
     print('==> [Diagnostics] Backend startup complete. Ready to serve requests.')
+
+if __name__ == '__main__':
+    initialize_database()
     app.run(debug=True, host='0.0.0.0', port=5000) 
