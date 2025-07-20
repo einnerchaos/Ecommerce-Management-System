@@ -1,12 +1,17 @@
 {
   "name": "ecommerce-management-system",
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/build",
   "builds": [
     {
       "src": "backend/app.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
     }
   ],
   "routes": [
@@ -16,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/build/index.html"
+      "dest": "/frontend/$1"
     }
   ]
 } 
