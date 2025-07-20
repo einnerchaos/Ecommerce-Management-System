@@ -15,6 +15,4 @@ jobs:
       run: npm install --global vercel@latest
       
     - name: Deploy to Vercel
-      run: |
-        echo "sqlite:////tmp/ecommerce.db" | vercel env add DATABASE_URL production --token=${{ secrets.VERCEL_TOKEN }} || true
-        vercel --token=${{ secrets.VERCEL_TOKEN }} --prod 
+      run: vercel --token=${{ secrets.VERCEL_TOKEN }} --prod 
