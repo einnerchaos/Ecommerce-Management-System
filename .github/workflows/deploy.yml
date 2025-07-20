@@ -2,17 +2,30 @@ name: Deploy to Vercel
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main, master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Install Vercel CLI
-      run: npm install --global vercel@latest
+      - uses: actions/checkout@v3
       
-    - name: Deploy to Vercel
-      run: vercel --token=${{ secrets.VERCEL_TOKEN }} --prod 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install
+          
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+          
+      - name: Deploy to Vercel
+        run: |
+          npm install -g vercel@latest
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} 

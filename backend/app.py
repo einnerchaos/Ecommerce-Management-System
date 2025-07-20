@@ -528,6 +528,8 @@ def report_orders():
     output.seek(0)
     return send_file(output, as_attachment=True, download_name='orders_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
+
+
 if __name__ == '__main__':
     with app.app_context():
         print('==> [Diagnostics] Creating all tables if not exist...')
