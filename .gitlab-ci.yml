@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  VERCEL_TOKEN: $VERCEL_TOKEN
+
+build-frontend:
+  stage: build
+  image: node:18
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/build/
+    expire_in: 1 hour
+
+deploy-to-vercel:
+  stage: deploy
+  image: node:18
+  script:
+    - npm install -g vercel
+    - vercel --token $VERCEL_TOKEN --prod --yes
+  only:
+    - main 
