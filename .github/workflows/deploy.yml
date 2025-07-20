@@ -28,4 +28,4 @@ jobs:
       - name: Deploy to Vercel
         run: |
           npm install -g vercel@latest
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} 
+          echo "y" | vercel --prod --token ${{ secrets.VERCEL_TOKEN }} 
