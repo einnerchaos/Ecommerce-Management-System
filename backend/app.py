@@ -703,10 +703,17 @@ def initialize_database():
 
     print('==> [Diagnostics] Backend startup complete. Ready to serve requests.')
 
-@app.before_first_request
-def initialization():
-    initialize_database()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# Global flag to track initialization
+_initialized = False
+
+@app.before_request
+def ensure_initialized():
+    global _initialized
+    if not _initialized:
+        with app.app_context():
+            initialize_database()
+        _initialized = True
 
 if __name__ == '__main__':
-    initialization()
+    initialize_database()
+    app.run(debug=True, host='0.0.0.0', port=5000)
